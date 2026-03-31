@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liceria & Co. — Bags for the Bold</title>
+<meta name="description" content="Shop Liceria & Co.'s bold, sustainable bag collection. Premium eco-conscious bags designed for the fearlessly stylish.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+ </head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+
+<!-- SCROLL TO TOP -->
+<button id="scrollTop" aria-label="Scroll to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">Liceria & Co.</div>
+  <div class="loader-sub">Bags for the Bold</div>
+  <div class="loader-bar-bg"><div class="loader-bar"></div></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Liceria & Co.</div>
+  <ul class="nav-links">
+    <li><a href="#concept">Concept</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#offering">Collection</a></li>
+    <li><a href="#advantage">Why Us</a></li>
+    <li><a href="javascript:void(0)" onclick="openOrdersModal()" id="navOrdersLink" style="display:none;">My Orders</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <div class="nav-search" id="navSearch">
+      <button class="search-toggle" id="searchToggle" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search bags, collections…" autocomplete="off"/>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- Cart Icon -->
+    <button class="nav-cart-btn" id="cartToggle" onclick="openCartSidebar()" aria-label="Shopping bag">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
+    </button>
+
+    <!-- Login Button (shown when logged out) -->
+    <button class="nav-login-btn" id="navLoginBtn" onclick="openAuthModal('login')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Sign In
+    </button>
+
+    <!-- User Area (shown when logged in) -->
+    <div class="nav-user-area" id="navUserArea" style="display:none;">
+      <button class="nav-user-btn" onclick="toggleUserDropdown()">
+        <div class="nav-user-avatar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <span id="navUserName">User</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="user-dropdown" id="userDropdown">
+        <a href="javascript:void(0)" class="dropdown-item" onclick="openOrdersModal(); document.getElementById('userDropdown').classList.remove('active');">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/></svg>
+          My Orders
+        </a>
+        <button class="dropdown-item" onclick="logOut(); document.getElementById('userDropdown').classList.remove('active');">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Log Out
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="auth-container">
+    <button class="modal-close" onclick="closeAuthModal()" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="auth-header">
+      <h2>Liceria & Co.</h2>
+      <p>Welcome to the bold side</p>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Sign In</button>
+      <button class="auth-tab" data-tab="signup">Create Account</button>
+    </div>
+    <form class="auth-form" id="loginForm">
+      <div class="auth-field">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" placeholder="you@example.com" required/>
+      </div>
+      <div class="auth-field">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="Your password" required/>
+      </div>
+      <p class="auth-error" id="loginError"></p>
+      <button type="submit" class="auth-submit">Sign In →</button>
+      <p class="auth-switch">Don't have an account? <a href="#" onclick="event.preventDefault();switchAuthTab('signup')">Create one</a></p>
+    </form>
+    <form class="auth-form" id="signupForm" style="display:none;">
+      <div class="auth-field">
+        <label for="signupName">Full Name</label>
+        <input type="text" id="signupName" placeholder="Your full name" required/>
+      </div>
+      <div class="auth-field">
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" placeholder="you@example.com" required/>
+      </div>
+      <div class="auth-field">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" placeholder="At least 4 characters" required minlength="4"/>
+      </div>
+      <p class="auth-error" id="signupError"></p>
+      <button type="submit" class="auth-submit">Create Account →</button>
+      <p class="auth-switch">Already have an account? <a href="#" onclick="event.preventDefault();switchAuthTab('login')">Sign in</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="product-modal-container">
+    <button class="modal-close" onclick="closeProductModal()" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="pm-image" style="cursor:grab;">
+      <img id="pmImage" src="" alt=""/>
+      <div class="pm-360-hint" id="pm360Hint">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 9l4-4 4 4"/><path d="M9 5v14"/><path d="M19 15l-4 4-4-4"/><path d="M15 19V5"/></svg>
+        Drag to inspect
+      </div>
+    </div>
+    <div class="pm-details">
+      <span class="pm-cat" id="pmCategory">Category</span>
+      <h2 id="pmName">Product Name</h2>
+      <div class="pm-price" id="pmPrice">$0</div>
+
+      <!-- PRODUCT TABS -->
+      <div class="pm-tabs">
+        <button class="pm-tab active" data-tab="overview" onclick="switchPmTab('overview')">Overview</button>
+        <button class="pm-tab" data-tab="size" onclick="switchPmTab('size')">📐 Size</button>
+        <button class="pm-tab" data-tab="fits" onclick="switchPmTab('fits')">🎒 What Fits</button>
+        <button class="pm-tab" data-tab="care" onclick="switchPmTab('care')">🧴 Care</button>
+      </div>
+
+      <!-- Tab: Overview -->
+      <div class="pm-tab-content active" id="pmTab_overview">
+        <p class="pm-desc" id="pmDesc">Description</p>
+        <button class="pm-add-btn" id="pmAddBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Add to Bag
+        </button>
+        <div class="pm-features">
+          <div class="pm-feature"><span>♻️</span> Eco Materials</div>
+          <div class="pm-feature"><span>🚚</span> Free Shipping</div>
+          <div class="pm-feature"><span>↩️</span> 30-Day Returns</div>
+      </div>
+      </div>
+
+      <!-- Tab: Size Comparison -->
+      <div class="pm-tab-content" id="pmTab_size">
+        <div id="pmSizeContent"></div>
+      </div>
+
+      <!-- Tab: What Fits Inside -->
+      <div class="pm-tab-content" id="pmTab_fits">
+        <div id="pmFitsContent"></div>
+      </div>
+
+      <!-- Tab: Material & Care -->
+      <div class="pm-tab-content" id="pmTab_care">
+        <div id="pmCareContent"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT CONFIRMATION MODAL -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="checkout-confirm-container">
+    <div class="checkout-success-icon">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <h2>Order Confirmed! 🎉</h2>
+    <p>Thank you for shopping with Liceria & Co.</p>
+    <div class="checkout-details">
+      <div class="checkout-detail-row"><span>Order ID</span><strong id="confirmOrderId">—</strong></div>
+      <div class="checkout-detail-row"><span>Items</span><strong id="confirmCount">—</strong></div>
+      <div class="checkout-detail-row"><span>Total</span><strong id="confirmTotal">—</strong></div>
+    </div>
+    <button class="auth-submit" onclick="closeCheckoutModal()">Continue Shopping →</button>
+    <a href="#myOrders" class="checkout-view-orders" onclick="closeCheckoutModal()">View My Orders</a>
+  </div>
+</div>
+
+<!-- CHECKOUT FLOW MODAL -->
+<div class="modal-overlay" id="checkoutFlowModal">
+  <div class="checkout-flow-container">
+    <button class="modal-close" onclick="closeCheckoutFlowModal()" aria-label="Close Checkout">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    
+    <h2>Secure Checkout</h2>
+    <div class="checkout-steps">
+      <!-- Address Step -->
+      <div class="checkout-step active" id="stepAddress">
+        <h3>1. Shipping Address</h3>
+        <div id="savedAddressesContainer" style="display:none; margin-bottom: 1rem;">
+          <h4>Saved Addresses</h4>
+          <div id="savedAddressesList"></div>
+          <button type="button" class="btn-outline" style="width:100%; font-size: 0.8rem; margin-top: 0.5rem;" onclick="showNewAddressForm()">+ Add New Address</button>
+        </div>
+
+        <form id="addressForm">
+          <div class="form-row">
+            <div class="auth-field"><label>Full Name</label><input type="text" id="shipName" required></div>
+            <div class="auth-field"><label>Phone Number</label><input type="tel" id="shipPhone" required pattern="[0-9]{10}"></div>
+          </div>
+          <div class="auth-field"><label>House No / Street</label><input type="text" id="shipStreet" required></div>
+          <div class="form-row">
+            <div class="auth-field"><label>City</label><input type="text" id="shipCity" required></div>
+            <div class="auth-field"><label>State</label><input type="text" id="shipState" required></div>
+          </div>
+          <div class="auth-field"><label>Pincode</label><input type="text" id="shipPincode" required pattern="[0-9]{6}"></div>
+          <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; margin-bottom: 1rem;">
+            <input type="checkbox" id="saveAddressCheck" checked>
+            Save this address for future orders
+          </label>
+          <button type="button" class="auth-submit" onclick="validateAndProceedToPayment()">Continue to Payment →</button>
+        </form>
+      </div>
+
+      <!-- Payment Step -->
+      <div class="checkout-step" id="stepPayment">
+        <h3>2. Payment Method</h3>
+        <p class="est-delivery">Estimated Delivery: <strong id="estDelDate"></strong></p>
+        
+        <div class="payment-options">
+          <label class="payment-option">
+            <input type="radio" name="payMode" value="UPI" checked>
+            <div class="pay-option-body">
+              <strong>UPI (GPay, PhonePe, Paytm)</strong>
+              <span>Pay instantly via your UPI app</span>
+            </div>
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payMode" value="Card">
+            <div class="pay-option-body">
+              <strong>Credit / Debit Card</strong>
+              <span>Visa, MasterCard, RuPay</span>
+            </div>
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payMode" value="NetBanking">
+            <div class="pay-option-body">
+              <strong>Net Banking</strong>
+              <span>All major banks supported</span>
+            </div>
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payMode" value="EMI">
+            <div class="pay-option-body">
+              <strong>EMI Option</strong>
+              <span>Pay in easy installments</span>
+            </div>
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payMode" value="COD">
+            <div class="pay-option-body">
+              <strong>Cash on Delivery (COD)</strong>
+              <span>Pay when the order arrives</span>
+            </div>
+          </label>
+        </div>
+
+        <div class="checkout-flow-footer">
+          <div class="cart-total-row"><span>Total to Pay:</span><span id="checkoutFinalTotal" style="font-size:1.2rem; font-weight:700; color:var(--dark);">$0.00</span></div>
+          <button type="button" class="auth-submit" id="finalPlaceOrderBtn" onclick="submitFinalOrder()">Pay & Place Order</button>
+          <button type="button" class="btn-outline" style="width:100%; margin-top:0.5rem; text-align:center;" onclick="backToAddress()">← Back to Address</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CANCEL ORDER MODAL -->
+<div class="modal-overlay" id="cancelOrderModal">
+  <div class="checkout-confirm-container" style="max-width:400px; text-align:left;">
+    <h2 style="font-size:1.4rem; color:var(--red); margin-bottom:1rem;">Cancel Order</h2>
+    <p style="font-size:0.9rem; color:#555; margin-bottom:1rem;">Are you sure you want to cancel order <strong id="cancelOrderIdText"></strong>?</p>
+    
+    <div class="auth-field">
+      <label>Reason for Cancellation</label>
+      <select id="cancelReasonSelect" style="width:100%; padding:0.8rem; border:1px solid #ccc; border-radius:8px; background:var(--light);">
+        <option value="Changed mind">Changed mind</option>
+        <option value="Wrong address">Wrong delivery address</option>
+        <option value="Found better price">Found better price elsewhere</option>
+        <option value="Ordered by mistake">Ordered by mistake</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+      <button class="btn-outline" style="flex:1;" onclick="closeCancelModal()">Go Back</button>
+      <button class="btn-primary" style="flex:1; background:var(--red); border-color:var(--red); color:#fff;" onclick="confirmCancelOrder()">Confirm Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay"></div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-sidebar-header">
+    <h3>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Your Bag
+    </h3>
+    <button class="cart-close-btn" onclick="closeCartSidebar()" aria-label="Close cart">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="cart-empty" id="cartEmpty">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <p>Your bag is empty</p>
+    <a href="#shop" class="btn-primary" onclick="closeCartSidebar()" style="font-size:0.82rem;padding:0.7rem 1.6rem;">Start Shopping</a>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total-row">
+      <span>Subtotal</span>
+      <span class="cart-total-amount" id="cartTotal">$0.00</span>
+    </div>
+    <button class="cart-checkout-btn" id="checkoutBtn">
+      Checkout
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <p class="cart-secure">🔒 Secure checkout · Free shipping over $200</p>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-blob hb1"></div>
+  <div class="hero-blob hb2"></div>
+  <div class="sparkle sp1"><svg width="26" height="26" viewBox="0 0 26 26" fill="#c0283e"><path d="M13 2L14.3 11.7 24 13 14.3 14.3 13 24 11.7 14.3 2 13 11.7 11.7Z"/></svg></div>
+  <div class="sparkle sp2"><svg width="18" height="18" viewBox="0 0 18 18" fill="#c0283e"><path d="M9 1L10 8 17 9 10 10 9 17 8 10 1 9 8 8Z"/></svg></div>
+  <div class="sparkle sp3"><svg width="22" height="22" viewBox="0 0 22 22" fill="#1a6b5e"><path d="M11 1L12.3 9.7 21 11 12.3 12.3 11 21 9.7 12.3 1 11 9.7 9.7Z"/></svg></div>
+  <div class="sparkle sp4"><svg width="14" height="14" viewBox="0 0 14 14" fill="#c0283e"><path d="M7 1L7.9 6.1 13 7 7.9 7.9 7 13 6.1 7.9 1 7 6.1 6.1Z"/></svg></div>
+
+  <div class="hero-text">
+    <span class="hero-tag">✦ Pitch Deck · Liceria & Co.</span>
+    <h1 class="hero-title">Bags for<br>the <em>Bold</em></h1>
+    <p class="hero-sub">Redefining bags as a statement of style, function, and fearless individuality. Presented by Rachelle Beaudry.</p>
+    <div class="hero-btns">
+      <a href="#shop" class="btn-primary">🛍 Shop Collection</a>
+      <a href="#concept" class="btn-outline">Our Story</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat-item"><div class="hero-stat-num">$70B+</div><div class="hero-stat-label">Market Size</div></div>
+      <div class="hero-stat-item"><div class="hero-stat-num">100%</div><div class="hero-stat-label">Sold Out</div></div>
+      <div class="hero-stat-item"><div class="hero-stat-num">5★</div><div class="hero-stat-label">Rated</div></div>
+    </div>
+  </div>
+
+  <div class="hero-image-area">
+    <div class="hero-main-img">
+      <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&auto=format&fit=crop" alt="Bold red bag"/>
+    </div>
+    <div class="hero-float hf1"><img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=300&auto=format&fit=crop" alt="bag"/></div>
+    <div class="hero-float hf2"><img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&auto=format&fit=crop" alt="bag"/></div>
+    <div class="hero-float hf3"><img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=300&auto=format&fit=crop" alt="bag"/></div>
+    <div class="hero-badge">Bold<br>Style<br>✦</div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">Bold Design <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Sustainable Materials <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Bags for the Bold <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Liceria &amp; Co. <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Fearless Style <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Sold Out Collection <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">www.reallygreatsite.com <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Bold Design <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Sustainable Materials <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Bags for the Bold <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Liceria &amp; Co. <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Fearless Style <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">Sold Out Collection <span class="ticker-star">✦</span></span>
+    <span class="ticker-item">www.reallygreatsite.com <span class="ticker-star">✦</span></span>
+  </div>
+</div>
+
+<!-- CHALLENGE -->
+<section id="challenge">
+  <div class="rl">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">The Challenge</h2>
+    <p>The bag industry is filled with unoriginal and non-durable designs. Modern consumers want bold, sustainable, and functional products that truly reflect their fearless identity — not just another generic accessory.</p>
+    <a href="#concept" class="btn-primary">See Our Solution →</a>
+  </div>
+  <div class="challenge-imgs rr">
+    <div class="cimg tall"><img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400&auto=format&fit=crop" alt="Challenge"/></div>
+    <div class="cimg"><img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=400&auto=format&fit=crop" alt="Challenge 2"/></div>
+    <div class="cimg"><img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&auto=format&fit=crop" alt="Challenge 3"/></div>
+  </div>
+</section>
+
+<!-- CONCEPT -->
+<section id="concept">
+  <div class="section-label reveal">Our Solution</div>
+  <h2 class="section-title reveal">Our Concept</h2>
+  <p class="reveal">Bags for the Bold designs bags that combine practicality with bold style for those who want to stand out.</p>
+  <div class="concept-cards stagger">
+    <div class="concept-card">
+      <div class="cc-img"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&auto=format&fit=crop" alt="Bold Design"/></div>
+      <div class="cc-body"><div class="cc-icon">🎨</div><h3>Bold Design</h3><p>Distinctive design language that makes a statement and sets you apart from every crowd.</p></div>
+    </div>
+    <div class="concept-card">
+      <div class="cc-img"><img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&auto=format&fit=crop" alt="Sustainable"/></div>
+      <div class="cc-body"><div class="cc-icon">♻️</div><h3>Sustainable</h3><p>Eco-conscious materials that are kind to the planet without compromising on quality or style.</p></div>
+    </div>
+    <div class="concept-card">
+      <div class="cc-img"><img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&auto=format&fit=crop" alt="Functional"/></div>
+      <div class="cc-body"><div class="cc-icon">⚡</div><h3>Functional</h3><p>Thoughtful features that transition seamlessly from your morning meeting to weekend adventure.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" style="padding:5rem 0;background:var(--light);">
+  <div class="gallery-head reveal">
+    <div class="section-label" style="text-align:center;">✦ The Collection</div>
+    <h2 class="section-title" style="text-align:center;">Explore Our Bags</h2>
+    <p style="text-align:center;color:#777;font-size:0.88rem;margin-top:0.5rem;">Hover to pause · Drag to explore</p>
+  </div>
+  <div style="overflow:hidden;">
+    <div class="gallery-track">
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&auto=format&fit=crop" alt="Red"/><div class="gitem-overlay"><span>The Bold Red ✦</span></div></div>
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&auto=format&fit=crop" alt="Orange"/><div class="gitem-overlay"><span>The Sunset Tote ✦</span></div></div>
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400&auto=format&fit=crop" alt="Classic"/><div class="gitem-overlay"><span>The Classic ✦</span></div></div>
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=400&auto=format&fit=crop" alt="Chic"/><div class="gitem-overlay"><span>The Chic ✦</span></div></div>
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&auto=format&fit=crop" alt="Vivid"/><div class="gitem-overlay"><span>The Vivid ✦</span></div></div>
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&auto=format&fit=crop" alt="Essential"/><div class="gitem-overlay"><span>The Essential ✦</span></div></div>
+      <!-- duplicate for loop -->
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&auto=format&fit=crop" alt="Red"/><div class="gitem-overlay"><span>The Bold Red ✦</span></div></div>
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&auto=format&fit=crop" alt="Orange"/><div class="gitem-overlay"><span>The Sunset Tote ✦</span></div></div>
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400&auto=format&fit=crop" alt="Classic"/><div class="gitem-overlay"><span>The Classic ✦</span></div></div>
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=400&auto=format&fit=crop" alt="Chic"/><div class="gitem-overlay"><span>The Chic ✦</span></div></div>
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&auto=format&fit=crop" alt="Vivid"/><div class="gitem-overlay"><span>The Vivid ✦</span></div></div>
+      <div class="gitem"><img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&auto=format&fit=crop" alt="Essential"/><div class="gitem-overlay"><span>The Essential ✦</span></div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SHOP (NEW) -->
+<section id="shop">
+  <div class="section-label reveal">✦ Shop Now</div>
+  <h2 class="section-title reveal">The Collection</h2>
+  <p class="reveal" style="max-width:560px;margin:0 auto 3rem;color:#555;line-height:1.8;text-align:center;">Handcrafted bags with bold aesthetics and sustainable materials. Click any bag to learn more — prices are final, no surprises.</p>
+  <div class="shop-grid stagger" id="shopGrid">
+    <!-- Products injected by JS -->
+  </div>
+</section>
+
+<!-- MARKET -->
+<section id="market">
+  <div class="rl">
+    <div class="section-label">Opportunity</div>
+    <h2 class="section-title">Market Potential</h2>
+    <p style="color:#555;line-height:1.8;">The global bag and accessories market continues growing rapidly, driven by younger consumers demanding functional, stylish, and sustainable options that reflect their identity.</p>
+    <div class="market-stats stagger">
+      <div class="stat-card"><div class="stat-num">$70B+</div><div class="stat-label">Global Market Size</div></div>
+      <div class="stat-card"><div class="stat-num">12%</div><div class="stat-label">Annual Growth Rate</div></div>
+      <div class="stat-card"><div class="stat-num">Gen Z</div><div class="stat-label">Primary Audience</div></div>
+      <div class="stat-card"><div class="stat-num">3×</div><div class="stat-label">Sustainable Demand Rise</div></div>
+    </div>
+  </div>
+  <div class="market-imgs rr">
+    <div class="mimg-main"><img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=600&auto=format&fit=crop" alt="Market"/></div>
+    <div class="mimg-secondary"><img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&auto=format&fit=crop" alt="Market 2"/></div>
+    <div class="mimg-tag">✦ Growing Fast</div>
+  </div>
+</section>
+
+<!-- OFFERING -->
+<section id="offering">
+  <div class="section-label reveal">What We Make</div>
+  <h2 class="section-title reveal">The Offering</h2>
+  <p class="reveal">Versatile bags with bold aesthetics, sustainable materials, and thoughtful functionality — seamlessly from work to travel to lifestyle.</p>
+  <div class="offering-grid stagger">
+    <div class="oitem">
+      <div class="oitem-img"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&auto=format&fit=crop" alt="Work"/></div>
+      <div class="oitem-body"><div class="icon">💼</div><h3>Work Ready</h3><p>Structured silhouettes perfect for the modern professional on the move.</p></div>
+    </div>
+    <div class="oitem">
+      <div class="oitem-img"><img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=400&auto=format&fit=crop" alt="Travel"/></div>
+      <div class="oitem-body"><div class="icon">✈️</div><h3>Travel Smart</h3><p>Spacious and durable for every journey, near or far.</p></div>
+    </div>
+    <div class="oitem">
+      <div class="oitem-img"><img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&auto=format&fit=crop" alt="Eco"/></div>
+      <div class="oitem-body"><div class="icon">🌿</div><h3>Eco Materials</h3><p>Sustainably sourced — beautiful and guilt-free.</p></div>
+    </div>
+    <div class="oitem">
+      <div class="oitem-img"><img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&auto=format&fit=crop" alt="Color"/></div>
+      <div class="oitem-body"><div class="icon">🌈</div><h3>Bold Palette</h3><p>Vibrant, fearless colors that make every outfit unforgettable.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVENUE -->
+<section id="revenue">
+  <div class="rl">
+    <div class="section-label">Business Model</div>
+    <h2 class="section-title">Revenue Streams</h2>
+    <div class="rev-streams stagger">
+      <div class="ritem"><div class="ricon">🛒</div><div class="rtext"><h4>Direct-to-Consumer E-commerce</h4><p>Online store with global shipping reach</p></div></div>
+      <div class="ritem"><div class="ricon">🏪</div><div class="rtext"><h4>Flagship Retail Stores</h4><p>Key city locations for in-person brand experience</p></div></div>
+      <div class="ritem"><div class="ricon">🎨</div><div class="rtext"><h4>Limited-Edition Collaborations</h4><p>Partnerships with designers and artists</p></div></div>
+      <div class="ritem"><div class="ricon">🤝</div><div class="rtext"><h4>Corporate Brand Partnerships</h4><p>Lifestyle and corporate brand co-branding</p></div></div>
+    </div>
+  </div>
+  <div class="rev-visual rr">
+    <h3>Revenue Breakdown</h3>
+    <div class="rbar-wrap"><div class="rbar-label"><span>E-commerce</span><span>45%</span></div><div class="rbar-bg"><div class="rbar" data-w="45%"></div></div></div>
+    <div class="rbar-wrap"><div class="rbar-label"><span>Retail Stores</span><span>30%</span></div><div class="rbar-bg"><div class="rbar" data-w="30%"></div></div></div>
+    <div class="rbar-wrap"><div class="rbar-label"><span>Collaborations</span><span>15%</span></div><div class="rbar-bg"><div class="rbar" data-w="15%"></div></div></div>
+    <div class="rbar-wrap"><div class="rbar-label"><span>Partnerships</span><span>10%</span></div><div class="rbar-bg"><div class="rbar" data-w="10%"></div></div></div>
+  </div>
+</section>
+
+
+
+<!-- ADVANTAGE -->
+<section id="advantage">
+  <div class="rl">
+    <div class="section-label">Why Us</div>
+    <h2 class="section-title">Competitive Advantage</h2>
+    <div class="adv-list stagger">
+      <div class="aitem"><div class="anum">01</div><div><h4>Distinctive Bold Design Language</h4><p>Our signature aesthetic is immediately recognizable and impossible to ignore.</p></div></div>
+      <div class="aitem"><div class="anum">02</div><div><h4>High-Quality Sustainable Materials</h4><p>Premium, eco-conscious sourcing without compromising on durability.</p></div></div>
+      <div class="aitem"><div class="anum">03</div><div><h4>Versatile Modern Functionality</h4><p>Designed for real life — from desk to airport to weekend adventure.</p></div></div>
+      <div class="aitem"><div class="anum">04</div><div><h4>Community-Driven Branding</h4><p>Strong storytelling that builds a passionate, loyal community of bold individuals.</p></div></div>
+    </div>
+  </div>
+  <div class="adv-imgs rr">
+    <div class="aimg tall"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&auto=format&fit=crop" alt="Bag 1"/></div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="aimg"><img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&auto=format&fit=crop" alt="Bag 2"/></div>
+      <div class="aimg"><img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=400&auto=format&fit=crop" alt="Bag 3"/></div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- MY ORDERS -->
+<section id="myOrders" style="display:none;">
+  <div class="section-label reveal">📦 Your History</div>
+  <h2 class="section-title reveal">My Orders</h2>
+  <p class="reveal" style="max-width:500px;color:#555;line-height:1.8;">Track all your past purchases. Each order shows exactly what you paid — no surprises.</p>
+  <div class="orders-empty" id="emptyOrders">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/></svg>
+    <p>No orders yet</p>
+    <a href="#shop" class="btn-primary" style="font-size:0.82rem;padding:0.7rem 1.6rem;">Start Shopping</a>
+  </div>
+  <div class="orders-container" id="ordersContainer"></div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label reveal">Get In Touch</div>
+  <h2 class="section-title reveal">Let's Build<br>Something <em style="font-style:italic;color:var(--pink);">Bold</em></h2>
+  <p class="reveal">Interested in partnering, investing, or just wearing the boldest bag in the room?</p>
+  <div class="c-links reveal">
+    <a href="tel:+1234567890" class="c-link">📞 +123-456-7890</a>
+    <a href="/cdn-cgi/l/email-protection#8fe7eae3e3e0cfe3e6eceafde6eea1ece0" class="c-link">✉️ <span class="__cf_email__" data-cfemail="761e131a1a19361a1f1513041f17581519">[email&#160;protected]</span></a>
+    <a href="#" class="c-link">📍 123 Anywhere St., Any City</a>
+    <a href="#" class="c-link">📸 @reallygreatsite</a>
+  </div>
+  <a href="#shop" class="btn-primary reveal" style="background:var(--red);box-shadow:0 8px 24px rgba(192,40,62,0.3);">Shop the Collection ✦</a>
+</section>
+
+
+<!-- MY ORDERS SECTION (Hidden by default, shown on click) -->
+<section id="myOrders" style="display:none; padding:6rem 2rem; background:#fff;">
+  <div class="section-label">📦 Your History</div>
+  <h2 class="section-title">My Orders</h2>
+  <p style="max-width:500px;color:#555;line-height:1.8; margin-bottom:2rem;">Track all your past purchases. Each order shows exactly what you paid — no surprises.</p>
+  
+  <div class="orders-empty" id="emptyOrders" style="display:none;">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/></svg>
+    <p>No orders yet</p>
+    <a href="#shop" class="btn-primary" style="font-size:0.82rem;padding:0.7rem 1.6rem;">Start Shopping</a>
+  </div>
+  <div class="orders-container" id="ordersContainer"></div>
+</section>
+
+<footer>© 2025 Liceria &amp; Co. — Bags for the Bold. All rights reserved. &nbsp;|&nbsp; Presented by Rachelle Beaudry &nbsp;|&nbsp; www.reallygreatsite.com</footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
